@@ -3,7 +3,8 @@
 #define coluna 5
 
 // Protótipo da função
-void printTabela(int tabela[linha][coluna]);
+void exibirTabela(int tabela[linha][coluna]);
+void exibirProximoNumero();
 
 int main()
 {
@@ -17,8 +18,11 @@ int main()
         {0, 0, 0, 0, 0}
     }; // Inicializando a tabela com valores aleatórios pra testar
 
+    exibirProximoNumero();
+    printf("\n");
+
     // Chama a função para imprimir a tabela
-    printTabela(tabela);
+    exibirTabela(tabela);
 
     // Menu para informar as colunas da tabela
     printf("\n");
@@ -29,7 +33,7 @@ int main()
     return 0;
 }
 
-void printTabela(int tabela[linha][coluna])
+void exibirTabela(int tabela[linha][coluna])
 {
     printf(" ----------------------------------------------\n");
     for (int i = 0; i < linha; i++)
@@ -49,14 +53,14 @@ void printTabela(int tabela[linha][coluna])
                     espacoAntes = 3;
                     espacoDepois = 3;
                 } else if (num < 100) { // 2 dígitos
-                    espacoAntes = 2;
-                    espacoDepois = 3;
+                    espacoAntes = 3;
+                    espacoDepois = 2;
                 } else if (num < 1000) { // 3 dígitos
                     espacoAntes = 2;
                     espacoDepois = 2;
                 } else { // 4 dígitos
-                    espacoAntes = 1;
-                    espacoDepois = 2;
+                    espacoAntes = 2;
+                    espacoDepois = 1;
                 }
                 printf(" |%*s%d%*s", espacoAntes, "", num, espacoDepois, ""); // Centraliza
             }
@@ -64,4 +68,52 @@ void printTabela(int tabela[linha][coluna])
         printf(" |\n");
         printf(" ----------------------------------------------\n");
     }
+}
+
+void exibirProximoNumero(){
+
+    int n1 = 1, n2 = 1, aux;
+    int espacoAntes1, espacoDepois1;
+    int espacoAntes2, espacoDepois2;
+
+                if (n1 < 10) { // 1 dígito
+                    espacoAntes1 = 3;
+                    espacoDepois1 = 4;
+                    aux = 4;
+                } else if (n1 < 100) { // 2 dígitos
+                    espacoAntes1 = 3;
+                    espacoDepois1 = 3;
+                    aux = 4;
+                } else if (n1 < 1000) { // 3 dígitos
+                    espacoAntes1 = 2;
+                    espacoDepois1 = 3;
+                    aux = 4;
+                } else { // 4 dígitos
+                    espacoAntes1 = 2;
+                    espacoDepois1 = 1;
+                    aux = 4;
+                }
+                
+
+                if (n2 < 10) { // 1 dígito
+                    espacoAntes2 = 3;
+                    espacoDepois2 = 4;
+                } else if (n2 < 100) { // 2 dígitos
+                    espacoAntes2 = 3;
+                    espacoDepois2 = 3;
+                } else if (n2 < 1000) { // 3 dígitos
+                    espacoAntes2 = 2;
+                    espacoDepois2 = 3;
+                } else { // 4 dígitos
+                    espacoAntes2 = 2;
+                    espacoDepois2 = 1;
+                }
+
+                printf(" ---------     --------\n");
+                      printf(" |%*s%d%*s", espacoAntes1, "", n1, espacoDepois1, " |");
+                      printf(" %*s|%*s%d%*s",aux,"", espacoAntes2, "", n2, espacoDepois2, " |\n");
+                      printf(" ---------     --------\n");
+                      
+                    
+                
 }
