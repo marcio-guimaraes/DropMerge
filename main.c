@@ -1,13 +1,21 @@
 #include <stdio.h>
+#include <stdlib.h>
+
 #define linha 7
 #define coluna 5
 
 // Protótipo da função
 void exibirTabela(int tabela[linha][coluna]);
-void exibirProximoNumero();
+void exibirProximoNumero(int n1, int n2);
 
 int main()
 {
+    int numeroAtual = 2, proximoNumero;
+    // Abrindo arquivo com a sequencia de numeros que irão aparecer
+    FILE *numeros;
+    numeros = fopen("numeros.txt", "r");
+
+
     int tabela[linha][coluna] = {
         {2, 4, 8, 4, 2},
         {16, 32, 64, 16, 32},
@@ -15,21 +23,35 @@ int main()
         {1024, 2048, 4096, 2048, 1024},
         {2, 64, 512, 64, 2},
         {0, 2, 4, 16, 0},
-        {0, 0, 0, 0, 0}
-    }; // Inicializando a tabela com valores aleatórios pra testar
+        {0, 0, 0, 0, 0}}; // Inicializando a tabela com valores aleatórios pra testar
 
-    exibirProximoNumero();
-    printf("\n");
+    int entrada;
+    while (1)
+    {
+        scanf("%d", &entrada);
+        system("clear");
+        if (entrada == 0)
+        {
+            break;
+        }
 
-    // Chama a função para imprimir a tabela
-    exibirTabela(tabela);
+        fscanf(numeros, "%d ", &proximoNumero);
 
-    // Menu para informar as colunas da tabela
-    printf("\n");
-    printf(" ----------------------------------------------\n"
-           " |    1   |    2   |    3   |    4   |    5   |\n"
-           " ----------------------------------------------\n");
+        exibirProximoNumero(numeroAtual, proximoNumero);
+        printf("\n");
+        numeroAtual = proximoNumero;
 
+        // Chama a função para imprimir a tabela
+        exibirTabela(tabela);
+
+        // Menu para informar as colunas da tabela
+        printf("\n");
+        printf(" ----------------------------------------------\n"
+               " |    1   |    2   |    3   |    4   |    5   |\n"
+               " ----------------------------------------------\n");
+    }
+
+    fclose(numeros);
     return 0;
 }
 
@@ -49,16 +71,23 @@ void exibirTabela(int tabela[linha][coluna])
                 // Calcula o número de espaços para centralizar o número
                 int num = tabela[i][j];
                 int espacoAntes, espacoDepois;
-                if (num < 10) { // 1 dígito
+                if (num < 10)
+                { // 1 dígito
                     espacoAntes = 3;
                     espacoDepois = 3;
-                } else if (num < 100) { // 2 dígitos
+                }
+                else if (num < 100)
+                { // 2 dígitos
                     espacoAntes = 3;
                     espacoDepois = 2;
-                } else if (num < 1000) { // 3 dígitos
+                }
+                else if (num < 1000)
+                { // 3 dígitos
                     espacoAntes = 2;
                     espacoDepois = 2;
-                } else { // 4 dígitos
+                }
+                else
+                { // 4 dígitos
                     espacoAntes = 2;
                     espacoDepois = 1;
                 }
@@ -70,47 +99,61 @@ void exibirTabela(int tabela[linha][coluna])
     }
 }
 
-void exibirProximoNumero(){
+void exibirProximoNumero(int n1, int n2)
+{
 
-    int n1 = 1, n2 = 1, aux;
+    int aux;
     int espacoAntes1, espacoDepois1;
     int espacoAntes2, espacoDepois2;
 
-                if (n1 < 10) { // 1 dígito
-                    espacoAntes1 = 3;
-                    espacoDepois1 = 4;
-                    aux = 4;
-                } else if (n1 < 100) { // 2 dígitos
-                    espacoAntes1 = 3;
-                    espacoDepois1 = 3;
-                    aux = 4;
-                } else if (n1 < 1000) { // 3 dígitos
-                    espacoAntes1 = 2;
-                    espacoDepois1 = 3;
-                    aux = 4;
-                } else { // 4 dígitos
-                    espacoAntes1 = 2;
-                    espacoDepois1 = 1;
-                    aux = 4;
-                }
-                
+    if (n1 < 10)
+    { // 1 dígito
+        espacoAntes1 = 3;
+        espacoDepois1 = 4;
+        aux = 4;
+    }
+    else if (n1 < 100)
+    { // 2 dígitos
+        espacoAntes1 = 3;
+        espacoDepois1 = 3;
+        aux = 4;
+    }
+    else if (n1 < 1000)
+    { // 3 dígitos
+        espacoAntes1 = 2;
+        espacoDepois1 = 3;
+        aux = 4;
+    }
+    else
+    { // 4 dígitos
+        espacoAntes1 = 2;
+        espacoDepois1 = 1;
+        aux = 4;
+    }
 
-                if (n2 < 10) { // 1 dígito
-                    espacoAntes2 = 3;
-                    espacoDepois2 = 4;
-                } else if (n2 < 100) { // 2 dígitos
-                    espacoAntes2 = 3;
-                    espacoDepois2 = 3;
-                } else if (n2 < 1000) { // 3 dígitos
-                    espacoAntes2 = 2;
-                    espacoDepois2 = 3;
-                } else { // 4 dígitos
-                    espacoAntes2 = 2;
-                    espacoDepois2 = 1;
-                }
+    if (n2 < 10)
+    { // 1 dígito
+        espacoAntes2 = 3;
+        espacoDepois2 = 4;
+    }
+    else if (n2 < 100)
+    { // 2 dígitos
+        espacoAntes2 = 3;
+        espacoDepois2 = 3;
+    }
+    else if (n2 < 1000)
+    { // 3 dígitos
+        espacoAntes2 = 2;
+        espacoDepois2 = 3;
+    }
+    else
+    { // 4 dígitos
+        espacoAntes2 = 2;
+        espacoDepois2 = 1;
+    }
 
-                printf("                                      ---------     --------\n");
-                      printf("                                      |%*s%d%*s", espacoAntes1, "", n1, espacoDepois1, " |");
-                      printf(" %*s|%*s%d%*s",aux,"", espacoAntes2, "", n2, espacoDepois2, " |\n");
-                      printf("                                      ---------     --------\n");      
+    printf("                                      ---------     --------\n");
+    printf("                                      |%*s%d%*s", espacoAntes1, "", n1, espacoDepois1, " |");
+    printf(" %*s|%*s%d%*s", aux, "", espacoAntes2, "", n2, espacoDepois2, " |\n");
+    printf("                                      ---------     --------\n");
 }
