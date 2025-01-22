@@ -7,6 +7,7 @@
 // Protótipo da função
 void exibirTabela(int tabela[linha][coluna]);
 void exibirProximoNumero(int n1, int n2);
+int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna]);
 
 int main()
 {
@@ -32,19 +33,8 @@ int main()
         exibirTabela(tabela);
 
         //tratando entradas
-        while (1)
-        {
-           scanf("%d", &entrada);
-           if (entrada >= 0 && entrada <= 5)
-           {
-            break;
-           }
-           system("clear");
-           exibirProximoNumero(numeroAtual, proximoNumero);
-           exibirTabela(tabela);
-           printf("ENTRADA INVÁLIDA! Escolha um numero entre 0 e 5\n");
-        }
         
+        entrada = tratarEntrada(numeroAtual, proximoNumero, tabela);
         if (entrada == 0)
         {
             break;
@@ -169,4 +159,22 @@ void exibirProximoNumero(int n1, int n2)
     printf("                                      |%*s%d%*s", espacoAntes1, "", n1, espacoDepois1, " |");
     printf(" %*s|%*s%d%*s", aux, "", espacoAntes2, "", n2, espacoDepois2, " |\n");
     printf("                                      ---------     --------\n\n");
+}
+
+int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna]){
+    int entrada;
+    while (1)
+        {
+           scanf("%d", &entrada);
+           if (entrada >= 0 && entrada <= 5)
+           {
+            break;
+           }
+           system("clear");
+           exibirProximoNumero(numeroAtual, proximoNumero);
+           exibirTabela(tabela);
+           printf("ENTRADA INVÁLIDA! Escolha um numero entre 0 e 5\n");
+        }
+
+        return entrada;
 }
