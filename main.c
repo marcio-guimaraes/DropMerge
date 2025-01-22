@@ -15,40 +15,44 @@ int main()
     FILE *numeros;
     numeros = fopen("numeros.txt", "r");
 
-
-    int tabela[linha][coluna] = {
-        {2, 4, 8, 4, 2},
-        {16, 32, 64, 16, 32},
-        {128, 256, 512, 256, 128},
-        {1024, 2048, 4096, 2048, 1024},
-        {2, 64, 512, 64, 2},
-        {0, 2, 4, 16, 0},
-        {0, 0, 0, 0, 0}}; // Inicializando a tabela com valores aleatórios pra testar
-
+    // Iniciando os contadores das linha
+    int tabela[linha][coluna] = {0};
     int entrada;
+    int contadores[5] = {6, 6, 6, 6, 6};
+
     while (1)
     {
-        scanf("%d", &entrada);
         system("clear");
-        if (entrada == 0)
-        {
-            break;
-        }
-
+        // Parte de exibição dos tabelas e do próximo numero
         fscanf(numeros, "%d ", &proximoNumero);
 
         exibirProximoNumero(numeroAtual, proximoNumero);
-        printf("\n");
-        numeroAtual = proximoNumero;
 
         // Chama a função para imprimir a tabela
         exibirTabela(tabela);
 
-        // Menu para informar as colunas da tabela
-        printf("\n");
-        printf(" ----------------------------------------------\n"
-               " |    1   |    2   |    3   |    4   |    5   |\n"
-               " ----------------------------------------------\n");
+        //tratando entradas
+        while (1)
+        {
+           scanf("%d", &entrada);
+           if (entrada >= 0 && entrada <= 5)
+           {
+            break;
+           }
+           system("clear");
+           exibirProximoNumero(numeroAtual, proximoNumero);
+           exibirTabela(tabela);
+           printf("ENTRADA INVÁLIDA! Escolha um numero entre 0 e 5\n");
+        }
+        
+        if (entrada == 0)
+        {
+            break;
+        }
+        tabela[contadores[entrada - 1]][entrada - 1] = numeroAtual;
+        contadores[entrada - 1]--;
+        numeroAtual = proximoNumero;
+        
     }
 
     fclose(numeros);
@@ -97,6 +101,13 @@ void exibirTabela(int tabela[linha][coluna])
         printf(" |\n");
         printf(" ----------------------------------------------\n");
     }
+
+    // Menu para informar as colunas da tabela
+        printf("\n");
+        printf(" ----------------------------------------------\n"
+               " |    1   |    2   |    3   |    4   |    5   |\n"
+               " ----------------------------------------------\n");
+
 }
 
 void exibirProximoNumero(int n1, int n2)
@@ -105,6 +116,8 @@ void exibirProximoNumero(int n1, int n2)
     int aux;
     int espacoAntes1, espacoDepois1;
     int espacoAntes2, espacoDepois2;
+
+    printf("Digite 0 para sair\n");
 
     if (n1 < 10)
     { // 1 dígito
@@ -155,5 +168,5 @@ void exibirProximoNumero(int n1, int n2)
     printf("                                      ---------     --------\n");
     printf("                                      |%*s%d%*s", espacoAntes1, "", n1, espacoDepois1, " |");
     printf(" %*s|%*s%d%*s", aux, "", espacoAntes2, "", n2, espacoDepois2, " |\n");
-    printf("                                      ---------     --------\n");
+    printf("                                      ---------     --------\n\n");
 }
