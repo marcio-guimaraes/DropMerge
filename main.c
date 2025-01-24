@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h> 
 
 #define linha 7
 #define coluna 5
@@ -8,6 +9,7 @@
 void exibirTabela(int tabela[linha][coluna]);
 void exibirProximoNumero(int n1, int n2);
 int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna]);
+void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int numeroAtual, int proximoNumero);
 
 int main()
 {
@@ -24,23 +26,25 @@ int main()
     while (1)
     {
         system("clear");
+
         // Parte de exibição dos tabelas e do próximo numero
         fscanf(numeros, "%d ", &proximoNumero);
-
         exibirProximoNumero(numeroAtual, proximoNumero);
 
         // Chama a função para imprimir a tabela
         exibirTabela(tabela);
 
         //tratando entradas
-        
         entrada = tratarEntrada(numeroAtual, proximoNumero, tabela);
         if (entrada == 0)
         {
-            break;
+            printf("Feito por marcin :)\n\n");
+            return 0;
         }
+        
         tabela[contadores[entrada - 1]][entrada - 1] = numeroAtual;
         contadores[entrada - 1]--;
+        mesclarBlocos(tabela, contadores, entrada, numeroAtual, proximoNumero);
         numeroAtual = proximoNumero;
         
     }
@@ -177,4 +181,50 @@ int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna])
         }
 
         return entrada;
+}
+
+void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int numeroAtual, int proximoNumero){
+
+    //tabela[contadores[entrada - 1]][entrada - 1] = numeroAtual;
+    int multiplicacao = 0;
+    int linhaAtual = contadores[entrada - 1] + 1;
+    int colunaAtual = entrada - 1;
+    int aux = numeroAtual;
+
+    printf("Entrando aquui\n");
+    printf("Linha %d\n", linhaAtual);
+    printf("Coluna %d\n", colunaAtual);
+
+    if(linhaAtual != 4 && tabela[linhaAtual+1][colunaAtual] == numeroAtual){
+        tabela[linhaAtual+1][colunaAtual] = 0;
+        multiplicacao++;
+        printf("Passou1\n");
+        sleep(1);
+    }
+    if(colunaAtual != 0 && tabela[linhaAtual][colunaAtual-1] == numeroAtual){
+        tabela[linhaAtual][colunaAtual-1] = 0;
+        multiplicacao++;
+        printf("Passou2\n");
+        sleep(1);
+    }
+    if(colunaAtual != 4 && tabela[linhaAtual][colunaAtual + 1] == numeroAtual){
+        tabela[linhaAtual][colunaAtual + 1] = 0;
+        multiplicacao++;
+        printf("Passou3\n");
+        sleep(1);
+    }
+
+    for (int i = 0; i < multiplicacao; i++)
+    {
+        numeroAtual *= 2;
+    }
+
+    if (numeroAtual != aux)
+    {
+        tabela[contadores[entrada - 1]+1][entrada - 1] = numeroAtual;
+        exibirProximoNumero(numeroAtual, proximoNumero);
+        exibirTabela(tabela);
+        printf("Passou\n");
+    }
+    sleep(3);
 }
