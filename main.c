@@ -9,9 +9,10 @@
 void exibirTabela(int tabela[linha][coluna]);
 void exibirProximoNumero(int n1, int n2);
 int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna]);
-void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int numeroAtual, int proximoNumero);
-void gravidade(int tabela[linha][coluna], int colntadores[]);
-void exibindocontadores(int contadores[]);
+void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int numeroAtual);
+void gravidade(int tabela[linha][coluna], int contadores[], int numeroAtual, int proximoNumero);
+//void exibindocontadores(int contadores[]);
+void reiniciarContadores(int tabela[linha][coluna], int contadores[]);
 
 int main()
 {
@@ -46,13 +47,13 @@ int main()
         
         tabela[contadores[entrada - 1]][entrada - 1] = numeroAtual;
         contadores[entrada - 1]--;
-        mesclarBlocos(tabela, contadores, entrada, numeroAtual, proximoNumero);
+        mesclarBlocos(tabela, contadores, entrada, numeroAtual);
         numeroAtual = proximoNumero;
 
-        gravidade(tabela, contadores);
+        gravidade(tabela, contadores, numeroAtual, proximoNumero);
 
 
-        exibindocontadores(contadores);
+        //exibindocontadores(contadores);
         
     }
 
@@ -190,7 +191,7 @@ int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna])
         return entrada;
 }
 
-void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int numeroAtual, int proximoNumero){
+void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int numeroAtual){
 
     //tabela[contadores[entrada - 1]][entrada - 1] = numeroAtual;
     int multiplicacao = 0;
@@ -198,27 +199,17 @@ void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int
     int colunaAtual = entrada - 1;
     int aux = numeroAtual;
 
-    printf("Entrando aquui\n");
-    printf("Linha %d\n", linhaAtual);
-    printf("Coluna %d\n", colunaAtual);
-
     if(linhaAtual != 6 && tabela[linhaAtual+1][colunaAtual] == numeroAtual){
         tabela[linhaAtual+1][colunaAtual] = 0;
         multiplicacao++;
-        printf("Passou1\n");
-        sleep(1);
     }
     if(colunaAtual != 0 && tabela[linhaAtual][colunaAtual-1] == numeroAtual){
         tabela[linhaAtual][colunaAtual-1] = 0;
         multiplicacao++;
-        printf("Passou2\n");
-        sleep(1);
     }
     if(colunaAtual != 4 && tabela[linhaAtual][colunaAtual + 1] == numeroAtual){
         tabela[linhaAtual][colunaAtual + 1] = 0;
         multiplicacao++;
-        printf("Passou3\n");
-        sleep(1);
     }
 
     for (int i = 0; i < multiplicacao; i++)
@@ -229,33 +220,32 @@ void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int
     if (numeroAtual != aux)
     {
         tabela[contadores[entrada - 1]+1][entrada - 1] = numeroAtual;
-        exibirProximoNumero(numeroAtual, proximoNumero);
-        exibirTabela(tabela);
-        printf("Passou\n");
     }
-    sleep(3);
 }
 
-void gravidade(int tabela[linha][coluna], int colntadores[]){
+void gravidade(int tabela[linha][coluna], int contadores[], int numeroAtual, int proximoNumero){
 
 
     //Fazendo os blocos descerem
-    printf("Entrou na gravidade\n");
-    for (int i = linha-1; i > 0; i--)
-    {
-        for (int j = coluna-1; j >= 0; j--)
-        {
-            if (tabela[i][j] == 0  && tabela[i-1][j] != 0)
-            {
-                tabela[i][j] = tabela[i-1][j];
-                tabela[i-1][j] = 0;
-                printf("Passou pra descer\n");
-                sleep(3);
-            }
-        }
-    }
+    
 
-    //Fazendo os blocos se juntarem
+    for (int i = 0; i < linha-1; i++)
+    {
+        for (int j = 0; j < coluna; j++)
+        {
+            if (tabela[i][j] != 0 && tabela[i+1][j] == 0)
+            {
+                tabela[i+1][j] = tabela[i][j];
+                tabela[i][j] = 0;
+                reiniciarContadores(tabela, contadores);
+            }
+            
+        }
+        
+    }
+    
+
+    //Mesclando os blocos
     for (int i = linha-1; i > 0; i--)
     {
         for (int j = coluna-1; j >= 0; j--)
@@ -264,32 +254,36 @@ void gravidade(int tabela[linha][coluna], int colntadores[]){
             {
                 tabela[i][j] *= 2;
                 tabela[i-1][j] = 0;
-                printf("Passou pra juntar\n");
-                sleep(3);
+                
             }
         }
     }
 
     //Reinicio dos contadores para a coluna com 0
-    for (int i = 0; i < coluna; i++)
-    {
-        for (int j = linha - 1; j >= 0; j--)
-        {
-            if (tabela[j][i] == 0)
-            {
-                colntadores[i] = j;
-                break;
-            }
-        }
-    }
+    
 
-    sleep(3);
+    exibirProximoNumero(numeroAtual, proximoNumero);
+    exibirTabela(tabela);
 }
 
 void exibindocontadores(int contadores[]){
     for (int i = 0; i < coluna; i++)
     {
         printf("Contador %d: %d\n", i, contadores[i]);
-        sleep(3);
+        sleep(0.5);
+    }
+}
+
+void reiniciarContadores(int tabela[linha][coluna], int contadores[]){
+   for (int i = 0; i < coluna; i++)
+    {
+        for (int j = linha - 1; j >= 0; j--)
+        {
+            if (tabela[j][i] == 0)
+            {
+                contadores[i] = j;
+                break;
+            }
+        }
     }
 }
