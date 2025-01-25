@@ -10,6 +10,8 @@ void exibirTabela(int tabela[linha][coluna]);
 void exibirProximoNumero(int n1, int n2);
 int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna]);
 void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int numeroAtual, int proximoNumero);
+void gravidade(int tabela[linha][coluna], int colntadores[]);
+void exibindocontadores(int contadores[]);
 
 int main()
 {
@@ -46,6 +48,11 @@ int main()
         contadores[entrada - 1]--;
         mesclarBlocos(tabela, contadores, entrada, numeroAtual, proximoNumero);
         numeroAtual = proximoNumero;
+
+        gravidade(tabela, contadores);
+
+
+        exibindocontadores(contadores);
         
     }
 
@@ -195,7 +202,7 @@ void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int
     printf("Linha %d\n", linhaAtual);
     printf("Coluna %d\n", colunaAtual);
 
-    if(linhaAtual != 4 && tabela[linhaAtual+1][colunaAtual] == numeroAtual){
+    if(linhaAtual != 6 && tabela[linhaAtual+1][colunaAtual] == numeroAtual){
         tabela[linhaAtual+1][colunaAtual] = 0;
         multiplicacao++;
         printf("Passou1\n");
@@ -227,4 +234,62 @@ void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int
         printf("Passou\n");
     }
     sleep(3);
+}
+
+void gravidade(int tabela[linha][coluna], int colntadores[]){
+
+
+    //Fazendo os blocos descerem
+    printf("Entrou na gravidade\n");
+    for (int i = linha-1; i > 0; i--)
+    {
+        for (int j = coluna-1; j >= 0; j--)
+        {
+            if (tabela[i][j] == 0  && tabela[i-1][j] != 0)
+            {
+                tabela[i][j] = tabela[i-1][j];
+                tabela[i-1][j] = 0;
+                printf("Passou pra descer\n");
+                sleep(3);
+            }
+        }
+    }
+
+    //Fazendo os blocos se juntarem
+    for (int i = linha-1; i > 0; i--)
+    {
+        for (int j = coluna-1; j >= 0; j--)
+        {
+            if (tabela[i][j] == tabela[i-1][j] && tabela[i][j] != 0)
+            {
+                tabela[i][j] *= 2;
+                tabela[i-1][j] = 0;
+                printf("Passou pra juntar\n");
+                sleep(3);
+            }
+        }
+    }
+
+    //Reinicio dos contadores para a coluna com 0
+    for (int i = 0; i < coluna; i++)
+    {
+        for (int j = linha - 1; j >= 0; j--)
+        {
+            if (tabela[j][i] == 0)
+            {
+                colntadores[i] = j;
+                break;
+            }
+        }
+    }
+
+    sleep(3);
+}
+
+void exibindocontadores(int contadores[]){
+    for (int i = 0; i < coluna; i++)
+    {
+        printf("Contador %d: %d\n", i, contadores[i]);
+        sleep(3);
+    }
 }
