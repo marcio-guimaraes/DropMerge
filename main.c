@@ -48,9 +48,10 @@ int main()
         tabela[contadores[entrada - 1]][entrada - 1] = numeroAtual;
         contadores[entrada - 1]--;
         mesclarBlocos(tabela, contadores, entrada, numeroAtual);
-        numeroAtual = proximoNumero;
 
         gravidade(tabela, contadores, numeroAtual, proximoNumero);
+
+        numeroAtual = proximoNumero;
 
 
         //exibindocontadores(contadores);
@@ -221,6 +222,12 @@ void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int
     {
         tabela[contadores[entrada - 1]+1][entrada - 1] = numeroAtual;
     }
+
+    if ((linhaAtual != 6 && tabela[linhaAtual+1][colunaAtual] == numeroAtual) || (colunaAtual != 0 && tabela[linhaAtual][colunaAtual-1] == numeroAtual) || (colunaAtual != 4 && tabela[linhaAtual][colunaAtual + 1] == numeroAtual))
+    {
+        mesclarBlocos(tabela, contadores, entrada, numeroAtual);
+    }
+    
 }
 
 void gravidade(int tabela[linha][coluna], int contadores[], int numeroAtual, int proximoNumero){
@@ -238,6 +245,7 @@ void gravidade(int tabela[linha][coluna], int contadores[], int numeroAtual, int
                 tabela[i+1][j] = tabela[i][j];
                 tabela[i][j] = 0;
                 reiniciarContadores(tabela, contadores);
+                mesclarBlocos(tabela, contadores, j+1, tabela[i+1][j]);
             }
             
         }
