@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define linha 7
+#define linha 10
 #define coluna 5
 
 // Protótipo da função
@@ -11,7 +11,6 @@ void exibirProximoNumero(int n1, int n2);
 int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna]);
 void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int numeroAtual);
 void gravidade(int tabela[linha][coluna], int contadores[], int numeroAtual, int proximoNumero);
-// void exibindocontadores(int contadores[]);
 void reiniciarContadores(int tabela[linha][coluna], int contadores[]);
 
 int main()
@@ -24,7 +23,7 @@ int main()
     // Iniciando os contadores das linha
     int tabela[linha][coluna] = {0};
     int entrada;
-    int contadores[5] = {6, 6, 6, 6, 6};
+    int contadores[5] = {linha -1, linha -1, linha -1, linha -1, linha -1};
 
     while (1)
     {
@@ -204,14 +203,12 @@ int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna])
 
 void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int numeroAtual)
 {
-
-    // tabela[contadores[entrada - 1]][entrada - 1] = numeroAtual;
     int multiplicacao = 0;
     int linhaAtual = contadores[entrada - 1] + 1;
     int colunaAtual = entrada - 1;
     int aux = numeroAtual;
 
-    if (linhaAtual != 6 && tabela[linhaAtual + 1][colunaAtual] == numeroAtual)
+    if (linhaAtual != linha - 1 && tabela[linhaAtual + 1][colunaAtual] == numeroAtual)
     {
         tabela[linhaAtual + 1][colunaAtual] = 0;
         multiplicacao++;
@@ -221,7 +218,7 @@ void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int
         tabela[linhaAtual][colunaAtual - 1] = 0;
         multiplicacao++;
     }
-    if (colunaAtual != 4 && tabela[linhaAtual][colunaAtual + 1] == numeroAtual)
+    if (colunaAtual != coluna - 1 && tabela[linhaAtual][colunaAtual + 1] == numeroAtual)
     {
         tabela[linhaAtual][colunaAtual + 1] = 0;
         multiplicacao++;
@@ -238,7 +235,7 @@ void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int
     }
 
     // Verificando se tem algum bloco igual ao novo bloco atual, se tiver mescla novamente
-    if ((linhaAtual != 6 && tabela[linhaAtual + 1][colunaAtual] == numeroAtual) || (colunaAtual != 0 && tabela[linhaAtual][colunaAtual - 1] == numeroAtual) || (colunaAtual != 4 && tabela[linhaAtual][colunaAtual + 1] == numeroAtual))
+    if ((linhaAtual != linha - 1 && tabela[linhaAtual + 1][colunaAtual] == numeroAtual) || (colunaAtual != 0 && tabela[linhaAtual][colunaAtual - 1] == numeroAtual) || (colunaAtual != coluna - 1 && tabela[linhaAtual][colunaAtual + 1] == numeroAtual))
     {
         mesclarBlocos(tabela, contadores, entrada, numeroAtual);
     }
@@ -262,21 +259,6 @@ void gravidade(int tabela[linha][coluna], int contadores[], int numeroAtual, int
             }
         }
     }
-
-    /*for (int i = linha-1; i > 0; i--)
-    {
-        for (int j = coluna-1; j >= 0; j--)
-        {
-            if (tabela[i][j] == tabela[i-1][j] && tabela[i][j] != 0)
-            {
-                tabela[i][j] *= 2;
-                tabela[i-1][j] = 0;
-
-            }
-        }
-    }*/
-
-    // Reinicio dos contadores para a coluna com 0
 
     exibirProximoNumero(numeroAtual, proximoNumero);
     exibirTabela(tabela);
