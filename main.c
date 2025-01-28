@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <windows.h>
 
 #define linha 10
 #define coluna 5
@@ -12,6 +13,9 @@ int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna])
 void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int numeroAtual);
 void gravidade(int tabela[linha][coluna], int contadores[], int numeroAtual, int proximoNumero);
 void reiniciarContadores(int tabela[linha][coluna], int contadores[]);
+void setConsoleColor(int textColor, int bgColor);
+void resetConsoleColor();
+void escolherCor(int num);
 
 int main()
 {
@@ -23,7 +27,7 @@ int main()
     // Iniciando os contadores das linha
     int tabela[linha][coluna] = {0};
     int entrada;
-    int contadores[5] = {linha -1, linha -1, linha -1, linha -1, linha -1};
+    int contadores[5] = {linha - 1, linha - 1, linha - 1, linha - 1, linha - 1};
 
     while (1)
     {
@@ -67,14 +71,20 @@ int main()
 
 void exibirTabela(int tabela[linha][coluna])
 {
-    printf(" ----------------------------------------------\n");
+    printf(" -----------------------------------------\n");
     for (int i = 0; i < linha; i++)
     {
         for (int j = 0; j < coluna; j++)
         {
+            if (j == 0)
+            {
+                printf(" ");
+            }
+            
             if (tabela[i][j] == 0)
             {
-                printf(" |       "); // Espaço vazio para valores 0
+                printf("|");
+                printf("       "); // Espaço vazio para valores 0
             }
             else
             {
@@ -101,18 +111,21 @@ void exibirTabela(int tabela[linha][coluna])
                     espacoAntes = 2;
                     espacoDepois = 1;
                 }
-                printf(" |%*s%d%*s", espacoAntes, "", num, espacoDepois, ""); // Centraliza
+                printf("|");
+                escolherCor(num);
+                printf("%*s%d%*s", espacoAntes, "", num, espacoDepois, ""); // Centraliza
             }
+            resetConsoleColor();
         }
-        printf(" |\n");
-        printf(" ----------------------------------------------\n");
+        printf("|\n");
+        printf(" -----------------------------------------\n");
     }
 
     // Menu para informar as colunas da tabela
     printf("\n");
-    printf(" ----------------------------------------------\n"
-           " |    1   |    2   |    3   |    4   |    5   |\n"
-           " ----------------------------------------------\n");
+    printf(" -----------------------------------------\n"
+           " |   1   |   2   |   3   |   4   |   5   |\n"
+           " -----------------------------------------\n");
 }
 
 void exibirProximoNumero(int n1, int n2)
@@ -170,6 +183,7 @@ void exibirProximoNumero(int n1, int n2)
         espacoDepois2 = 1;
     }
 
+    
     printf("                                      ---------     --------\n");
     printf("                                      |%*s%d%*s", espacoAntes1, "", n1, espacoDepois1, " |");
     printf(" %*s|%*s%d%*s", aux, "", espacoAntes2, "", n2, espacoDepois2, " |\n");
@@ -285,5 +299,51 @@ void reiniciarContadores(int tabela[linha][coluna], int contadores[])
                 break;
             }
         }
+    }
+}
+
+// Função para configurar a cor do texto e do fundo no console
+void setConsoleColor(int textColor, int bgColor)
+{
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, textColor | (bgColor << 4));
+}
+
+// Função para resetar a cor do console
+void resetConsoleColor()
+{
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, 7); // Cor padrão: texto branco em fundo preto
+}
+
+void escolherCor(int num) {
+    if (num == 2) {
+        setConsoleColor(0, 1); // azul
+    } else if (num == 4) {
+        setConsoleColor(0, 2); // verde
+    } else if (num == 8) {
+        setConsoleColor(0, 4); // vermelho
+    } else if (num == 16) {
+        setConsoleColor(0, 6); // amarelo
+    } else if (num == 32) {
+        setConsoleColor(0, 5); // roxo
+    } else if (num == 64) {
+        setConsoleColor(0, 8); // cinza escuro
+    } else if (num == 128) {
+        setConsoleColor(0, 4); // vermelho
+    } else if (num == 256) {
+        setConsoleColor(0, 9); // azul claro
+    } else if (num == 512) {
+        setConsoleColor(0, 6); // amarelo
+    } else if (num == 1024) {
+        setConsoleColor(0, 8); // cinza escuro
+    } else if (num == 2048) {
+        setConsoleColor(0, 10); // verde claro
+    } else if (num == 4096) {
+        setConsoleColor(0, 11); // aqua
+    } else if (num == 8192) {
+        setConsoleColor(0, 5); // roxo
+    } else {
+        resetConsoleColor(); // Cor padrão
     }
 }
