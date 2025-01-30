@@ -21,6 +21,8 @@ void resetConsoleColor();
 void escolherCor(int num);
 #endif
 
+int pontos = 0;
+
 int jogo()
 {
     int numeroAtual = 2, proximoNumero;
@@ -52,6 +54,11 @@ int jogo()
 
         // tratando entradas
         entrada = tratarEntrada(numeroAtual, proximoNumero, tabela);
+        if (entrada == 0)
+        {
+            break;
+        }
+        
 
         tabela[contadores[entrada - 1]][entrada - 1] = numeroAtual;
         contadores[entrada - 1]--;
@@ -65,7 +72,7 @@ int jogo()
     }
 
     fclose(numeros);
-    return 0;
+    return pontos;
 }
 
 void exibirTabela(int tabela[linha][coluna])
@@ -138,7 +145,7 @@ void exibirProximoNumero(int n1, int n2)
     int espacoAntes1, espacoDepois1;
     int espacoAntes2, espacoDepois2;
 
-    printf("Digite 0 para sair\n");
+    printf("Digite 0 para voltar ao menu\n");
 
     if (n1 < 10)
     { // 1 dígito
@@ -240,6 +247,8 @@ void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int
         tabela[linhaAtual][colunaAtual + 1] = 0;
         multiplicacao++;
     }
+
+    pontos += multiplicacao;
 
     for (int i = 0; i < multiplicacao; i++)
     {
