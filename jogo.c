@@ -15,6 +15,7 @@ int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna])
 void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int numeroAtual);
 void gravidade(int tabela[linha][coluna], int contadores[], int numeroAtual, int proximoNumero);
 void reiniciarContadores(int tabela[linha][coluna], int contadores[]);
+void limparTerminal();
 #ifdef _WIN32
 void setConsoleColor(int textColor, int bgColor);
 void resetConsoleColor();
@@ -37,13 +38,7 @@ int jogo()
 
     while (1)
     {
-        // Verifica se está no sistema Windows
-#ifdef _WIN32
-        system("cls");
-// Caso esteja em um sistema Unix-like (Linux, macOS)
-#else
-        system("clear");
-#endif
+        limparTerminal();
 
         // Parte de exibição dos tabelas e do próximo numero
         fscanf(numeros, "%d ", &proximoNumero);
@@ -210,13 +205,9 @@ int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna])
         {
             break;
         }
-        // Verifica se está no sistema Windows
-#ifdef _WIN32
-        system("cls");
-// Caso esteja em um sistema Unix-like (Linux, macOS)
-#else
-        system("clear");
-#endif
+        
+        limparTerminal();
+
         exibirProximoNumero(numeroAtual, proximoNumero);
         exibirTabela(tabela);
         printf("ENTRADA INVÁLIDA! Escolha um numero entre 0 e 5\n");
@@ -362,3 +353,14 @@ void escolherCor(int num) {
     }
 }
 #endif
+
+void limparTerminal(){
+        // Verifica se está no sistema Windows
+#ifdef _WIN32
+        system("cls");
+// Caso esteja em um sistema Unix-like (Linux, macOS)
+#else
+        system("clear");
+#endif
+
+}

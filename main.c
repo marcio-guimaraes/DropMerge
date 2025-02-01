@@ -5,13 +5,14 @@
 #include "jogo.c"
 
 #ifdef _WIN32
-    #include <windows.h>
+#include <windows.h>
 #endif
 
 #define MAX_NOME 50
 #define MAX_JOGADORES 100
 
-typedef struct {
+typedef struct
+{
     char nome[MAX_NOME];
     int pontos;
 } Jogador;
@@ -34,15 +35,16 @@ int main()
 
     while (1)
     {
-#ifdef _WIN32
-        system("cls");
-#else
-        system("clear");
-#endif
+        limparTerminal();
 
-        printf("##############################\n");
-        printf("###########  MENU  ###########\n");
-        printf("##############################\n\n");
+        printf(
+
+            "███╗░░░███╗███████╗███╗░░██╗██╗░░░██╗\n"
+            "████╗░████║██╔════╝████╗░██║██║░░░██║\n"
+            "██╔████╔██║█████╗░░██╔██╗██║██║░░░██║\n"
+            "██║╚██╔╝██║██╔══╝░░██║╚████║██║░░░██║\n"
+            "██║░╚═╝░██║███████╗██║░╚███║╚██████╔╝\n"
+            "╚═╝░░░░░╚═╝╚══════╝╚═╝░░╚══╝░╚═════╝░\n");
 
         printf("1 - Jogar\n");
         printf("2 - Ranking\n");
@@ -64,11 +66,7 @@ int main()
             fgets(nome, MAX_NOME, stdin);
             nome[strcspn(nome, "\n")] = 0; // Remover quebra de linha
 
-#ifdef _WIN32
-            system("cls");
-#else
-            system("clear");
-#endif
+            limparTerminal();
 
             printDropMerge();
             sleep(1);
@@ -189,11 +187,7 @@ void consultarRanking()
 
     ordenarRanking(jogadores, total);
 
-    #ifdef _WIN32
-        system("cls");
-    #else
-        system("clear");
-    #endif
+    limparTerminal();
 
     printf("##############################\n");
     printf("########### RANKING ##########\n");
