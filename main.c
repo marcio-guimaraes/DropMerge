@@ -44,7 +44,7 @@ int main()
             "██╔████╔██║█████╗░░██╔██╗██║██║░░░██║\n"
             "██║╚██╔╝██║██╔══╝░░██║╚████║██║░░░██║\n"
             "██║░╚═╝░██║███████╗██║░╚███║╚██████╔╝\n"
-            "╚═╝░░░░░╚═╝╚══════╝╚═╝░░╚══╝░╚═════╝░\n");
+            "╚═╝░░░░░╚═╝╚══════╝╚═╝░░╚══╝░╚═════╝░\n\n");
 
         printf("1 - Jogar\n");
         printf("2 - Ranking\n");
@@ -57,6 +57,7 @@ int main()
 
         if (entrada == 0)
         {
+            limparTerminal();
             printf("Feito por Marcin :)\n\n");
             return 0;
         }
@@ -189,13 +190,14 @@ void consultarRanking()
 
     limparTerminal();
 
-    printf("##############################\n");
-    printf("########### RANKING ##########\n");
-    printf("##############################\n\n");
+    printf("##############################\n"
+           "########### RANKING ##########\n"
+           "##############################\n\n"
+           "  || xp  ||  nome\n\n");
 
     for (int i = 0; i < total; i++)
     {
-        printf("%d. %s - %d\n", i + 1, jogadores[i].nome, jogadores[i].pontos);
+        printf("%d.   %d   -   %s\n", i + 1, jogadores[i].pontos, jogadores[i].nome);
     }
 
     printf("\nPressione ENTER para voltar ao menu\n");
