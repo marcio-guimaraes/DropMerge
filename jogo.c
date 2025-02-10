@@ -131,7 +131,15 @@ void exibirTabela(int tabela[linha][coluna])
             resetConsoleColor();
             #endif
         }
-        printf("|\n");
+
+        if (i == 2)
+        {
+            printf("| pontuação atual: %d\n", pontos);
+        } else {
+            printf("|\n");
+        }
+        
+        
         printf(" -----------------------------------------\n");
     }
 
@@ -220,6 +228,7 @@ int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna])
         exibirProximoNumero(numeroAtual, proximoNumero);
         exibirTabela(tabela);
         printf("ENTRADA INVÁLIDA! Escolha um numero entre 0 e 5\n");
+        getchar();
     }
 
     return entrada;
@@ -248,8 +257,6 @@ void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int
         multiplicacao++;
     }
 
-    pontos += multiplicacao;
-
     for (int i = 0; i < multiplicacao; i++)
     {
         numeroAtual *= 2;
@@ -258,6 +265,7 @@ void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int
     if (numeroAtual != aux)
     {
         tabela[contadores[entrada - 1] + 1][entrada - 1] = numeroAtual;
+        pontos += numeroAtual;
     }
 
     // Verificando se tem algum bloco igual ao novo bloco atual, se tiver mescla novamente
