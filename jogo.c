@@ -20,12 +20,15 @@ void limparTerminal();
 void setConsoleColor(int textColor, int bgColor);
 void resetConsoleColor();
 void escolherCor(int num);
+int verificarGrid(int tabela[linha][coluna]);
+void exbirPerdeu();
 #endif
 
-int pontos = 0;
+int pontos, martelos;
 
 int jogo()
 {
+    pontos = 0, martelos = 0;
     int numeroAtual = 2, proximoNumero;
     // Abrindo arquivo com a sequencia de numeros que irão aparecer
     FILE *numeros;
@@ -38,6 +41,7 @@ int jogo()
 
     while (1)
     {
+        int gridCheio = verificarGrid(tabela);
         limparTerminal();
 
         // Parte de exibição dos tabelas e do próximo numero
@@ -53,14 +57,21 @@ int jogo()
         {
             break;
         }
-        
-        if (contadores[entrada-1] == -1)
+
+        if (contadores[entrada - 1] == -1  && !gridCheio)
         {
-            printf("%d\n", contadores[entrada-1]);
-            printf("Perdeu\n");
-            break;
+            while (contadores[entrada - 1] == -1)
+            {
+                limparTerminal();
+                exibirProximoNumero(numeroAtual, proximoNumero);
+                exibirTabela(tabela);
+                entrada = tratarEntrada(numeroAtual, proximoNumero, tabela);
+            }
+            if (entrada == 0)
+            {
+                break;
+            }
         }
-        
 
         tabela[contadores[entrada - 1]][entrada - 1] = numeroAtual;
         contadores[entrada - 1]--;
@@ -68,16 +79,48 @@ int jogo()
 
         gravidade(tabela, contadores, numeroAtual, proximoNumero);
 
-        numeroAtual = proximoNumero;
+        // Condições pra perder
+        
+        if (gridCheio)
+        {
+            int temIgual = 0;
+            for (int i = 0; i < coluna; i++)
+            {
+                if (proximoNumero == tabela[0][i])
+                {
+                    temIgual = 1;
+                }
+            }
+            if (temIgual == 0)
+            {
+                limparTerminal();
+                exbirPerdeu();
+                break;
+            }
+            else
+            {
+                while (entrada != 0 && tabela[0][entrada - 1] != proximoNumero)
+                {
+                    limparTerminal();
+                    exibirProximoNumero(numeroAtual, proximoNumero);
+                    exibirTabela(tabela);
+                    entrada = tratarEntrada(numeroAtual, proximoNumero, tabela);
+                }
+                if (entrada == 0)
+                {
+                    break;
+                }
 
-        // exibindocontadores(contadores);
+                tabela[0][entrada - 1] *= 2;
+            }
+        }
+
+        numeroAtual = proximoNumero;
     }
 
     fclose(numeros);
     return pontos;
 }
-
-
 
 void exibirTabela(int tabela[linha][coluna])
 {
@@ -90,7 +133,7 @@ void exibirTabela(int tabela[linha][coluna])
             {
                 printf(" ");
             }
-            
+
             if (tabela[i][j] == 0)
             {
                 printf("|");
@@ -122,24 +165,29 @@ void exibirTabela(int tabela[linha][coluna])
                     espacoDepois = 1;
                 }
                 printf("|");
-                #ifdef _WIN32
+#ifdef _WIN32
                 escolherCor(num);
-                #endif
+#endif
                 printf("%*s%d%*s", espacoAntes, "", num, espacoDepois, ""); // Centraliza
             }
-            #ifdef _WIN32
+#ifdef _WIN32
             resetConsoleColor();
-            #endif
+#endif
         }
 
-        if (i == 2)
+        if (i == 1)
+        {
+            printf("| martelos: %d\n", martelos);
+        }
+        else if (i == 2)
         {
             printf("| pontuação atual: %d\n", pontos);
-        } else {
+        }
+        else
+        {
             printf("|\n");
         }
-        
-        
+
         printf(" -----------------------------------------\n");
     }
 
@@ -205,7 +253,6 @@ void exibirProximoNumero(int n1, int n2)
         espacoDepois2 = 1;
     }
 
-    
     printf("                                      ---------     --------\n");
     printf("                                      |%*s%d%*s", espacoAntes1, "", n1, espacoDepois1, " |");
     printf(" %*s|%*s%d%*s", aux, "", espacoAntes2, "", n2, espacoDepois2, " |\n");
@@ -222,7 +269,7 @@ int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna])
         {
             break;
         }
-        
+
         limparTerminal();
 
         exibirProximoNumero(numeroAtual, proximoNumero);
@@ -274,7 +321,7 @@ void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int
         mesclarBlocos(tabela, contadores, entrada, numeroAtual, proximoNumero);
     }
 
-     gravidade(tabela, contadores, numeroAtual, proximoNumero);
+    gravidade(tabela, contadores, numeroAtual, proximoNumero);
 }
 
 void gravidade(int tabela[linha][coluna], int contadores[], int numeroAtual, int proximoNumero)
@@ -300,15 +347,6 @@ void gravidade(int tabela[linha][coluna], int contadores[], int numeroAtual, int
     exibirTabela(tabela);
 }
 
-void exibindocontadores(int contadores[])
-{
-    for (int i = 0; i < coluna; i++)
-    {
-        printf("Contador %d: %d\n", i, contadores[i]);
-        sleep(0.5);
-    }
-}
-
 void reiniciarContadores(int tabela[linha][coluna], int contadores[])
 {
     for (int i = 0; i < coluna; i++)
@@ -323,7 +361,6 @@ void reiniciarContadores(int tabela[linha][coluna], int contadores[])
         }
     }
 }
-
 
 #ifdef _WIN32
 // Função para configurar a cor do texto e do fundo no console
@@ -340,46 +377,102 @@ void resetConsoleColor()
     SetConsoleTextAttribute(hConsole, 7); // Cor padrão: texto branco em fundo preto
 }
 
-void escolherCor(int num) {
-    if (num == 2) {
+void escolherCor(int num)
+{
+    if (num == 2)
+    {
         setConsoleColor(0, 1); // azul
-    } else if (num == 4) {
+    }
+    else if (num == 4)
+    {
         setConsoleColor(0, 2); // verde
-    } else if (num == 8) {
+    }
+    else if (num == 8)
+    {
         setConsoleColor(0, 4); // vermelho
-    } else if (num == 16) {
+    }
+    else if (num == 16)
+    {
         setConsoleColor(0, 6); // amarelo
-    } else if (num == 32) {
+    }
+    else if (num == 32)
+    {
         setConsoleColor(0, 5); // roxo
-    } else if (num == 64) {
+    }
+    else if (num == 64)
+    {
         setConsoleColor(0, 8); // cinza escuro
-    } else if (num == 128) {
+    }
+    else if (num == 128)
+    {
         setConsoleColor(0, 4); // vermelho
-    } else if (num == 256) {
+    }
+    else if (num == 256)
+    {
         setConsoleColor(0, 9); // azul claro
-    } else if (num == 512) {
+    }
+    else if (num == 512)
+    {
         setConsoleColor(0, 6); // amarelo
-    } else if (num == 1024) {
+    }
+    else if (num == 1024)
+    {
         setConsoleColor(0, 8); // cinza escuro
-    } else if (num == 2048) {
+    }
+    else if (num == 2048)
+    {
         setConsoleColor(0, 10); // verde claro
-    } else if (num == 4096) {
+    }
+    else if (num == 4096)
+    {
         setConsoleColor(0, 11); // aqua
-    } else if (num == 8192) {
+    }
+    else if (num == 8192)
+    {
         setConsoleColor(0, 5); // roxo
-    } else {
+    }
+    else
+    {
         resetConsoleColor(); // Cor padrão
     }
 }
 #endif
 
-void limparTerminal(){
-        // Verifica se está no sistema Windows
+void limparTerminal()
+{
+    // Verifica se está no sistema Windows
 #ifdef _WIN32
-        system("cls");
+    system("cls");
 // Caso esteja em um sistema Unix-like (Linux, macOS)
 #else
-        system("clear");
+    system("clear");
 #endif
+}
 
+int verificarGrid(int tabela[linha][coluna])
+{
+    int gridCheio = 1;
+    for (int i = 0; i < linha; i++)
+    {
+        for (int j = 0; j < coluna; j++)
+        {
+            if (tabela[i][j] == 0)
+            {
+                gridCheio = 0;
+            }
+        }
+    }
+
+    return gridCheio;
+}
+
+void exbirPerdeu()
+{
+
+    printf(
+        " ██████   █████  ███    ███ ███████      ██████  ██    ██ ███████ ██████\n"
+        "██       ██   ██ ████  ████ ██          ██    ██ ██    ██ ██      ██   ██\n"
+        "██   ███ ███████ ██ ████ ██ █████       ██    ██ ██    ██ █████   ██████\n"
+        "██    ██ ██   ██ ██  ██  ██ ██          ██    ██  ██  ██  ██      ██   ██\n"
+        " ██████  ██   ██ ██      ██ ███████      ██████    ████   ███████ ██   ██\n\n");
 }
