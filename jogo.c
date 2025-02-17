@@ -7,7 +7,7 @@
 
 #define linha 10
 #define coluna 5
-#define pontosNecessarios 500
+#define pontosNecessarios 10
 
 // Protótipo da função
 void exibirTabela(int tabela[linha][coluna]);
@@ -45,7 +45,7 @@ int jogo()
 
     while (1)
     {
-        if (acumulados == pontosNecessarios)
+        if (acumulados >= pontosNecessarios)
         {
             martelos++;
             acumulados -= pontosNecessarios;
@@ -117,14 +117,15 @@ int jogo()
                 }
                 else
                 {
-                    int aux1, aux2, oi = 0;
+                    int aux1, aux2;
                     while (1)
                     {
                         limparTerminal();
                         exibirProximoNumero(numeroAtual, proximoNumero);
                         exibirTabela(tabela);
-                        printf("Digite a linha e a coluna que deseja usar o martelo. Ex: 1 2 oi = %d\n", oi);
-                        scanf("%d %d", &aux1, aux2);
+                        printf("Digite a linha e a coluna que deseja usar o martelo. Ex: 1 2\n"
+                                "As linhas se contam de cima para baixo\n");
+                        scanf("%d %d", &aux1, &aux2);
                         if ((aux1 <= 10 && aux1 >= 1) && (aux2 <= 5 && aux2 >= 1))
                         {
                             break;
@@ -132,8 +133,7 @@ int jogo()
                     }
 
                     tabela[aux1 - 1][aux2 - 1] = 0;
-                    printf("Passou aqui\n");
-                    sleep(2);
+                    martelos--;
                 }
             }
             else
@@ -159,6 +159,9 @@ int jogo()
                 exibirTabela(tabela);
             }
         }
+
+        mesclarBlocos(tabela, contadores, entrada, numeroAtual, proximoNumero);
+        gravidade(tabela, contadores, numeroAtual, proximoNumero);
 
         numeroAtual = proximoNumero;
     }
@@ -358,6 +361,7 @@ void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int
     {
         tabela[contadores[entrada - 1] + 1][entrada - 1] = numeroAtual;
         pontos += numeroAtual;
+        acumulados += numeroAtual;
     }
 
     // Verificando se tem algum bloco igual ao novo bloco atual, se tiver mescla novamente
