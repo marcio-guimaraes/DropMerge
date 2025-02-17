@@ -7,6 +7,7 @@
 
 #define linha 10
 #define coluna 5
+#define pontosNecessarios 500
 
 // Protótipo da função
 void exibirTabela(int tabela[linha][coluna]);
@@ -21,18 +22,21 @@ void setConsoleColor(int textColor, int bgColor);
 void resetConsoleColor();
 void escolherCor(int num);
 int verificarGrid(int tabela[linha][coluna]);
-void exbirPerdeu();
+void exibirPerdeu();
+void exibirGanhou();
 #endif
 
-int pontos, martelos;
+int pontos, martelos, acumulados;
 
 int jogo()
 {
-    pontos = 0, martelos = 0;
-    int numeroAtual = 2, proximoNumero;
+    pontos = 0, martelos = 1, acumulados = 0;
+    int numeroAtual, proximoNumero;
     // Abrindo arquivo com a sequencia de numeros que irão aparecer
     FILE *numeros;
     numeros = fopen("numeros.txt", "r");
+    fscanf(numeros, "%d ", &proximoNumero);
+    numeroAtual = proximoNumero;
 
     // Iniciando os contadores das linha
     int tabela[linha][coluna] = {0};
@@ -41,11 +45,22 @@ int jogo()
 
     while (1)
     {
+        if (acumulados == pontosNecessarios)
+        {
+            martelos++;
+            acumulados -= pontosNecessarios;
+        }
+
         int gridCheio = verificarGrid(tabela);
         limparTerminal();
 
         // Parte de exibição dos tabelas e do próximo numero
-        fscanf(numeros, "%d ", &proximoNumero);
+        if (fscanf(numeros, "%d ", &proximoNumero) == EOF)
+        {
+            exibirGanhou();
+            break;
+        }
+
         exibirProximoNumero(numeroAtual, proximoNumero);
 
         // Chama a função para imprimir a tabela
@@ -58,7 +73,7 @@ int jogo()
             break;
         }
 
-        if (contadores[entrada - 1] == -1  && !gridCheio)
+        if (contadores[entrada - 1] == -1 && !gridCheio)
         {
             while (contadores[entrada - 1] == -1)
             {
@@ -80,38 +95,68 @@ int jogo()
         gravidade(tabela, contadores, numeroAtual, proximoNumero);
 
         // Condições pra perder
-        
+        gridCheio = verificarGrid(tabela);
         if (gridCheio)
         {
             int temIgual = 0;
+            numeroAtual = proximoNumero;
+            fscanf(numeros, "%d ", &proximoNumero);
             for (int i = 0; i < coluna; i++)
             {
-                if (proximoNumero == tabela[0][i])
+                if (numeroAtual == tabela[0][i])
                 {
                     temIgual = 1;
                 }
             }
             if (temIgual == 0)
             {
-                limparTerminal();
-                exbirPerdeu();
-                break;
+                if (martelos == 0)
+                {
+                    exibirPerdeu();
+                    break;
+                }
+                else
+                {
+                    int aux1, aux2, oi = 0;
+                    while (1)
+                    {
+                        limparTerminal();
+                        exibirProximoNumero(numeroAtual, proximoNumero);
+                        exibirTabela(tabela);
+                        printf("Digite a linha e a coluna que deseja usar o martelo. Ex: 1 2 oi = %d\n", oi);
+                        scanf("%d %d", &aux1, aux2);
+                        if ((aux1 <= 10 && aux1 >= 1) && (aux2 <= 5 && aux2 >= 1))
+                        {
+                            break;
+                        }
+                    }
+
+                    tabela[aux1 - 1][aux2 - 1] = 0;
+                    printf("Passou aqui\n");
+                    sleep(2);
+                }
             }
             else
             {
-                while (entrada != 0 && tabela[0][entrada - 1] != proximoNumero)
+                do
                 {
                     limparTerminal();
                     exibirProximoNumero(numeroAtual, proximoNumero);
                     exibirTabela(tabela);
                     entrada = tratarEntrada(numeroAtual, proximoNumero, tabela);
-                }
+                    printf("Numero atual = %d e proximo = %d\n", numeroAtual, proximoNumero);
+                    sleep(2);
+                } while (entrada != 0 && tabela[0][entrada - 1] != numeroAtual);                
+
                 if (entrada == 0)
                 {
                     break;
                 }
 
                 tabela[0][entrada - 1] *= 2;
+                limparTerminal();
+                exibirProximoNumero(numeroAtual, proximoNumero);
+                exibirTabela(tabela);
             }
         }
 
@@ -466,13 +511,24 @@ int verificarGrid(int tabela[linha][coluna])
     return gridCheio;
 }
 
-void exbirPerdeu()
+void exibirPerdeu()
 {
-
+    limparTerminal();
     printf(
         " ██████   █████  ███    ███ ███████      ██████  ██    ██ ███████ ██████\n"
         "██       ██   ██ ████  ████ ██          ██    ██ ██    ██ ██      ██   ██\n"
         "██   ███ ███████ ██ ████ ██ █████       ██    ██ ██    ██ █████   ██████\n"
         "██    ██ ██   ██ ██  ██  ██ ██          ██    ██  ██  ██  ██      ██   ██\n"
         " ██████  ██   ██ ██      ██ ███████      ██████    ████   ███████ ██   ██\n\n");
+}
+
+void exibirGanhou()
+{
+    limparTerminal();
+    printf(
+        "██  ██   ██████  ██    ██     ██     ██ ██ ███    ██\n"
+        "██  ██  ██    ██ ██    ██     ██     ██ ██ ████   ██\n"
+        " ████   ██    ██ ██    ██     ██  █  ██ ██ ██ ██  ██\n"
+        "  ██    ██    ██ ██    ██     ██ ███ ██ ██ ██  ██ ██\n"
+        "  ██     ██████   ██████       ███ ███  ██ ██   ████\n\n");
 }
