@@ -163,13 +163,19 @@ void consultarRanking()
         "██   ██ ██   ██ ████   ██ ██  ██  ██ ████   ██ ██     \n"
         "██████  ███████ ██ ██  ██ █████   ██ ██ ██  ██ ██   ███\n"
         "██   ██ ██   ██ ██  ██ ██ ██  ██  ██ ██  ██ ██ ██    ██ \n"
-        "██   ██ ██   ██ ██   ████ ██   ██ ██ ██   ████  ██████\n\n"
-        "  || points  ||  nickname\n\n");
+        "██   ██ ██   ██ ██   ████ ██   ██ ██ ██   ████  ██████\n\n");
+        
+    printf(" ========================================\n");
+    printf("| %-10s | %-10s | %-15s |\n", "Posição", "Pontos", "Nickname");
+    printf(" ========================================\n");
 
-    for (int i = 0; i < total; i++)
-    {
-        printf("%d.   %d   -   %s\n", i + 1, jogadores[i].pontos, jogadores[i].nome);
-    }
+for (int i = 0; i < total; i++)
+{
+        printf("| %-8d | %-10d | %-15s |\n", i + 1, jogadores[i].pontos, jogadores[i].nome);
+}
+
+printf(" ========================================\n");
+
 
     printf("\nPressione ENTER para voltar ao menu\n");
     getchar();
@@ -275,15 +281,12 @@ void configuracoes()
     return;
 }
 
-void instrucoes(){
+void instrucoes()
+{
     printf("INSTRUÇÕES SOBRE O JOGO\n\n");
-
 
     printf("Olá, para começar\n");
     getchar();
 
     return;
-
-
-
 }
