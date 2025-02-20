@@ -23,6 +23,8 @@ void salvarPontuacao(const char *nome, int pontos);
 void consultarRanking();
 void ordenarRanking(Jogador jogadores[], int total);
 void zerarRanking();
+void configuracoes();
+void instrucoes();
 
 int main()
 {
@@ -34,7 +36,7 @@ int main()
     SetConsoleCP(65001);
 #endif
 
-    //comandos iniciais
+    // comandos iniciais
     limparTerminal();
     printDropMerge();
     printf("\nNICKNAME: ");
@@ -63,15 +65,14 @@ int main()
         scanf("%d", &entrada);
         getchar(); // Consumir ENTER deixado pelo scanf
 
-        if (entrada == 5)
+        switch (entrada)
         {
+        case 5:
             limparTerminal();
             printf("Feito por Marcin :)\n\n");
             return 0;
-        }
-        else if (entrada == 1)
-        {
 
+        case 1:
             limparTerminal();
             sleep(1);
 
@@ -80,14 +81,24 @@ int main()
 
             salvarPontuacao(nome, pontos);
             sleep(3);
-        }
-        else if (entrada == 4)
-        {
+            break;
+
+        case 2:
+            limparTerminal();
+            configuracoes();
+            break;
+
+        case 3:
+            limparTerminal();
+            instrucoes();
+            break;
+
+        case 4:
             consultarRanking();
-        }
-        else if (entrada == 3)
-        {
-            zerarRanking();
+            break;
+
+        default:
+            break;
         }
     }
 
@@ -148,12 +159,12 @@ void consultarRanking()
     limparTerminal();
 
     printf(
-        "██████   █████  ███    ██ ██   ██ ██ ███    ██  ██████\n"  
+        "██████   █████  ███    ██ ██   ██ ██ ███    ██  ██████\n"
         "██   ██ ██   ██ ████   ██ ██  ██  ██ ████   ██ ██     \n"
-        "██████  ███████ ██ ██  ██ █████   ██ ██ ██  ██ ██   ███\n" 
+        "██████  ███████ ██ ██  ██ █████   ██ ██ ██  ██ ██   ███\n"
         "██   ██ ██   ██ ██  ██ ██ ██  ██  ██ ██  ██ ██ ██    ██ \n"
         "██   ██ ██   ██ ██   ████ ██   ██ ██ ██   ████  ██████\n\n"
-                "  || points  ||  nickname\n\n");
+        "  || points  ||  nickname\n\n");
 
     for (int i = 0; i < total; i++)
     {
@@ -224,4 +235,55 @@ void printDropMerge()
 #ifdef _WIN32
     resetConsoleColor();
 #endif
+}
+
+void configuracoes()
+{
+
+    printf("##########CONFIGURAÇÕES##########\n\n");
+
+    printf("1 - Zerar ranking\n"
+           "2 - Modo de dificuldade\n"
+           "3 - Voltar ao menu principal\n\n"
+           "Digite a opção desejada: ");
+
+    int num;
+    while (1)
+    {
+        scanf("%d", &num);
+        if (num >= 1 && num <= 3)
+        {
+            break;
+        }
+    }
+
+    switch (num)
+    {
+    case 1:
+        zerarRanking();
+        break;
+
+        // case 2 ainda sem fazer, dificuldade
+
+    case 3:
+        return;
+
+    default:
+        break;
+    }
+
+    return;
+}
+
+void instrucoes(){
+    printf("INSTRUÇÕES SOBRE O JOGO\n\n");
+
+
+    printf("Olá, para começar\n");
+    getchar();
+
+    return;
+
+
+
 }

@@ -17,13 +17,13 @@ void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int
 void gravidade(int tabela[linha][coluna], int contadores[], int numeroAtual, int proximoNumero);
 void reiniciarContadores(int tabela[linha][coluna], int contadores[]);
 void limparTerminal();
+int verificarGrid(int tabela[linha][coluna]);
+void exibirPerdeu();
+void exibirGanhou();
 #ifdef _WIN32
 void setConsoleColor(int textColor, int bgColor);
 void resetConsoleColor();
 void escolherCor(int num);
-int verificarGrid(int tabela[linha][coluna]);
-void exibirPerdeu();
-void exibirGanhou();
 #endif
 
 int pontos, martelos, acumulados;
