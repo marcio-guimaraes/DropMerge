@@ -25,6 +25,7 @@ void ordenarRanking(Jogador jogadores[], int total);
 void zerarRanking();
 void configuracoes();
 void instrucoes();
+void escolherDificuldade();
 
 int main()
 {
@@ -269,7 +270,8 @@ void configuracoes()
         zerarRanking();
         break;
 
-        // case 2 ainda sem fazer, dificuldade
+        case 2:
+        escolherDificuldade();
 
     case 3:
         return;
@@ -285,8 +287,33 @@ void instrucoes()
 {
     printf("INSTRUÇÕES SOBRE O JOGO\n\n");
 
-    printf("Olá, para começar\n");
+    printf("Objetivo:\nO objetivo do jogo é combinar blocos de mesmo valor para obter a maior pontuação possível antes que o tabuleiro fique cheio.\n\n"
+
+
+        "Regras:\n"
+        "O jogo acontece em um grid de 10 linhas por 5 colunas.\n"
+        "O jogador deve digitar um número de 1 a 5 para escolher em qual coluna um novo bloco irá cair.\n"
+        "Se dois blocos com o mesmo valor se encontrarem, eles se combinam em um único bloco com o valor dobrado.\n"
+        "O jogo termina quando não houver mais espaço para blocos.\n\n"
+
+        "Uso do Martelo:\n"
+        "Se o tabuleiro estiver cheio e o jogador tiver um martelo, ele pode usá-lo para destruir um bloco específico.\n"
+        "Para isso, o jogador deve escolher:\n"
+        "Linha (1 a 10)\n"
+        "Coluna (1 a 5)\n"
+        "Após remover um bloco, o jogo continua normalmente.\n\n"
+
+        "Dicas\n"
+        "Escolha bem onde os blocos vão cair para evitar que o tabuleiro fique cheio rapidamente.\n"
+        "Use o martelo com estratégia para remover blocos que atrapalham combinações.\n\n");
+
+
+    printf("Tecle ENTER para retornar ao menu principal\n");
     getchar();
 
     return;
+}
+
+void escolherDificuldade(){
+    printf("Ainda em desenvolvimento\n");
 }
