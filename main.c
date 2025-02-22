@@ -165,18 +165,17 @@ void consultarRanking()
         "██████  ███████ ██ ██  ██ █████   ██ ██ ██  ██ ██   ███\n"
         "██   ██ ██   ██ ██  ██ ██ ██  ██  ██ ██  ██ ██ ██    ██ \n"
         "██   ██ ██   ██ ██   ████ ██   ██ ██ ██   ████  ██████\n\n");
-        
+
     printf(" ========================================\n");
     printf("| %-10s | %-10s | %-15s |\n", "Posição", "Pontos", "Nickname");
     printf(" ========================================\n");
 
-for (int i = 0; i < total; i++)
-{
+    for (int i = 0; i < total; i++)
+    {
         printf("| %-8d | %-10d | %-15s |\n", i + 1, jogadores[i].pontos, jogadores[i].nome);
-}
+    }
 
-printf(" ========================================\n");
-
+    printf(" ========================================\n");
 
     printf("\nPressione ENTER para voltar ao menu\n");
     getchar();
@@ -270,7 +269,7 @@ void configuracoes()
         zerarRanking();
         break;
 
-        case 2:
+    case 2:
         escolherDificuldade();
 
     case 3:
@@ -289,24 +288,34 @@ void instrucoes()
 
     printf("Objetivo:\nO objetivo do jogo é combinar blocos de mesmo valor para obter a maior pontuação possível antes que o tabuleiro fique cheio.\n\n"
 
+           "Regras:\n"
+           "O jogo acontece em um grid com um número de colunas que varia conforme o nível de dificuldade.\n"
+           "O jogador deve digitar um número correspondente à coluna para escolher onde um novo bloco irá cair.\n"
+           "Se dois blocos com o mesmo valor se encontrarem, eles se combinam em um único bloco com o valor dobrado.\n"
+           "O jogo termina quando não houver mais espaço para blocos.\n\n"
 
-        "Regras:\n"
-        "O jogo acontece em um grid de 10 linhas por 5 colunas.\n"
-        "O jogador deve digitar um número de 1 a 5 para escolher em qual coluna um novo bloco irá cair.\n"
-        "Se dois blocos com o mesmo valor se encontrarem, eles se combinam em um único bloco com o valor dobrado.\n"
-        "O jogo termina quando não houver mais espaço para blocos.\n\n"
+           "Níveis de Dificuldade:\n"
+           "- Fácil: 5 colunas, o primeiro martelo pode ser obtido com 128 pontos.\n"
+           "- Médio: 4 colunas, o primeiro martelo pode ser obtido com 512 pontos.\n"
+           "- Difícil: 3 colunas, o primeiro martelo pode ser obtido com 1024 pontos.\n"
+           "O jogador pode alterar o nível de dificuldade a qualquer momento no menu de configurações.\n\n"
 
-        "Uso do Martelo:\n"
-        "Se o tabuleiro estiver cheio e o jogador tiver um martelo, ele pode usá-lo para destruir um bloco específico.\n"
-        "Para isso, o jogador deve escolher:\n"
-        "Linha (1 a 10)\n"
-        "Coluna (1 a 5)\n"
-        "Após remover um bloco, o jogo continua normalmente.\n\n"
+           "Uso do Martelo:\n"
+           "Se o tabuleiro estiver cheio e o jogador tiver um martelo, ele pode usá-lo para destruir um bloco específico.\n"
+           "Para isso, o jogador deve escolher:\n"
+           "Linha (1 a 10)\n"
+           "Coluna (de acordo com o nível de dificuldade)\n"
+           "Após remover um bloco, o jogo continua normalmente.\n\n"
+           "O número de pontos necessários para conseguir um martelo dobra a cada vez que o jogador obtém um.\n\n"
 
-        "Dicas\n"
-        "Escolha bem onde os blocos vão cair para evitar que o tabuleiro fique cheio rapidamente.\n"
-        "Use o martelo com estratégia para remover blocos que atrapalham combinações.\n\n");
+           "Configurações:\n"
+           "No menu de configurações, o jogador pode:\n"
+           "- Alterar o nível de dificuldade.\n"
+           "- Zerar o ranking e redefinir as pontuações.\n\n"
 
+           "Dicas:\n"
+           "Escolha bem onde os blocos vão cair para evitar que o tabuleiro fique cheio rapidamente.\n"
+           "Use o martelo com estratégia para remover blocos que atrapalham combinações.\n\n");
 
     printf("Tecle ENTER para retornar ao menu principal\n");
     getchar();
@@ -314,6 +323,40 @@ void instrucoes()
     return;
 }
 
-void escolherDificuldade(){
-    printf("Ainda em desenvolvimento\n");
+void escolherDificuldade()
+{
+    limparTerminal();
+    printf("Por padrão a dificuldade do jogo vem em \"fácil\", mas você pode escolher entre fácil, médio e difícil\n"
+           "Escolha uma das dificuldades abaixo:\n"
+           "1 - Fácil\n"
+           "2 - Médio\n"
+           "3 - Difícil\n"
+           "0 - Voltar ao menu de configurações\n\n");
+    int dificuldade;
+    scanf("%d", &dificuldade);
+
+    switch (dificuldade)
+    {
+    case 1:
+        linha = 10;
+        coluna = 5;
+        pontosNecessarios = 128;
+        break;
+
+    case 2:
+        linha = 10;
+        coluna = 4;
+        pontosNecessarios = 512;
+        break;
+
+    case 3:
+        linha = 10;
+        coluna = 3;
+        pontosNecessarios = 1024;
+        break;
+
+    default:
+        break;
+    }
+    return;
 }

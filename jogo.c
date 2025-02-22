@@ -5,9 +5,7 @@
 #include <windows.h>
 #endif
 
-#define linha 10
-#define coluna 5
-#define pontosNecessarios 10
+int linha = 10, coluna = 5;
 
 // Protótipo da função
 void exibirTabela(int tabela[linha][coluna]);
@@ -26,11 +24,11 @@ void resetConsoleColor();
 void escolherCor(int num);
 #endif
 
-int pontos, martelos, acumulados;
+int pontos, martelos, acumulados, pontosNecessarios = 128;
 
 int jogo()
 {
-    pontos = 0, martelos = 1, acumulados = 0;
+    pontos = 0, martelos, acumulados = 0;
     int numeroAtual, proximoNumero;
     // Abrindo arquivo com a sequencia de numeros que irão aparecer
     FILE *numeros;
@@ -39,7 +37,15 @@ int jogo()
     numeroAtual = proximoNumero;
 
     // Iniciando os contadores das linha
-    int tabela[linha][coluna] = {0};
+    int tabela[linha][coluna];
+    for (int i = 0; i < linha; i++)
+    {
+        for (int j = 0; j < coluna; j++)
+        {
+            tabela[i][j] = 0;
+        }
+    }
+
     int entrada;
     int contadores[5] = {linha - 1, linha - 1, linha - 1, linha - 1, linha - 1};
 
@@ -49,6 +55,7 @@ int jogo()
         {
             martelos++;
             acumulados -= pontosNecessarios;
+            pontosNecessarios *= 2;
         }
 
         int gridCheio = verificarGrid(tabela);
@@ -124,9 +131,9 @@ int jogo()
                         exibirProximoNumero(numeroAtual, proximoNumero);
                         exibirTabela(tabela);
                         printf("Digite a linha e a coluna que deseja usar o martelo. Ex: 1 2\n"
-                                "As linhas se contam de cima para baixo\n");
+                               "As linhas se contam de cima para baixo\n");
                         scanf("%d %d", &aux1, &aux2);
-                        if ((aux1 <= 10 && aux1 >= 1) && (aux2 <= 5 && aux2 >= 1))
+                        if ((aux1 <= linha - 1 && aux1 >= 1) && (aux2 <= coluna - 1 && aux2 >= 1))
                         {
                             break;
                         }
@@ -146,7 +153,7 @@ int jogo()
                     entrada = tratarEntrada(numeroAtual, proximoNumero, tabela);
                     printf("Numero atual = %d e proximo = %d\n", numeroAtual, proximoNumero);
                     sleep(2);
-                } while (entrada != 0 && tabela[0][entrada - 1] != numeroAtual);                
+                } while (entrada != 0 && tabela[0][entrada - 1] != numeroAtual);
 
                 if (entrada == 0)
                 {
@@ -172,7 +179,19 @@ int jogo()
 
 void exibirTabela(int tabela[linha][coluna])
 {
-    printf(" -----------------------------------------\n");
+    if (coluna == 5)
+    {
+        printf(" -----------------------------------------\n");
+    }
+    else if (coluna == 4)
+    {
+        printf(" ---------------------------------\n");
+    }
+    else if (coluna == 3)
+    {
+        printf(" -------------------------\n");
+    }
+
     for (int i = 0; i < linha; i++)
     {
         for (int j = 0; j < coluna; j++)
@@ -236,14 +255,42 @@ void exibirTabela(int tabela[linha][coluna])
             printf("|\n");
         }
 
-        printf(" -----------------------------------------\n");
+        if (coluna == 5)
+        {
+            printf(" -----------------------------------------\n");
+        }
+        else if (coluna == 4)
+        {
+            printf(" ---------------------------------\n");
+        }
+        else if (coluna == 3)
+        {
+            printf(" -------------------------\n");
+        }
     }
 
     // Menu para informar as colunas da tabela
-    printf("\n");
-    printf(" -----------------------------------------\n"
-           " |   1   |   2   |   3   |   4   |   5   |\n"
-           " -----------------------------------------\n");
+    if (coluna == 5)
+    {
+        printf("\n");
+        printf(" -----------------------------------------\n"
+               " |   1   |   2   |   3   |   4   |   5   |\n"
+               " -----------------------------------------\n");
+    }
+    else if (coluna == 4)
+    {
+        printf("\n");
+        printf(" ---------------------------------\n"
+               " |   1   |   2   |   3   |   4   |\n"
+               " ---------------------------------\n");
+    }
+    if (coluna == 3)
+    {
+        printf("\n");
+        printf(" -------------------------\n"
+               " |   1   |   2   |   3   |\n"
+               " -------------------------\n");
+    }
 }
 
 void exibirProximoNumero(int n1, int n2)
@@ -322,7 +369,7 @@ int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna])
 
         exibirProximoNumero(numeroAtual, proximoNumero);
         exibirTabela(tabela);
-        printf("ENTRADA INVÁLIDA! Escolha um numero entre 0 e 5\n");
+        printf("ENTRADA INVÁLIDA! Escolha um numero entre 0 e %d\n", coluna - 1);
         getchar();
     }
 
