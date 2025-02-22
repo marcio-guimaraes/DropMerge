@@ -363,7 +363,7 @@ int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna])
     while (1)
     {
         scanf("%d", &entrada);
-        if (entrada >= 0 && entrada <= 5)
+        if (entrada >= 0 && entrada <= coluna)
         {
             break;
         }
@@ -372,7 +372,7 @@ int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna])
 
         exibirProximoNumero(numeroAtual, proximoNumero);
         exibirTabela(tabela);
-        printf("ENTRADA INVÁLIDA! Escolha um numero entre 0 e %d\n", coluna - 1);
+        printf("ENTRADA INVÁLIDA! Escolha um numero entre 0 e %d\n", coluna);
         getchar();
     }
 
