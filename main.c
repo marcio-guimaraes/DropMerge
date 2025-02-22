@@ -340,19 +340,19 @@ void escolherDificuldade()
     case 1:
         linha = 10;
         coluna = 5;
-        pontosNecessarios = 128;
+        pontosNecessarios = 10000;
         break;
 
     case 2:
         linha = 10;
         coluna = 4;
-        pontosNecessarios = 512;
+        pontosNecessarios = 12000;
         break;
 
     case 3:
         linha = 10;
         coluna = 3;
-        pontosNecessarios = 1024;
+        pontosNecessarios = 14000;
         break;
 
     default:

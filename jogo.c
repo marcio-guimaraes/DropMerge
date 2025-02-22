@@ -24,7 +24,7 @@ void resetConsoleColor();
 void escolherCor(int num);
 #endif
 
-int pontos, martelos, acumulados, pontosNecessarios = 128;
+int pontos, martelos, acumulados, pontosNecessarios = 10000;
 
 int jogo()
 {
