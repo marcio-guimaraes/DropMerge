@@ -5,9 +5,9 @@
 #include <windows.h>
 #endif
 
-int linha = 10, coluna = 5;
+// Definição de constantes e variáveis globais e protótipos de funções
+int pontos, martelos, acumulados, linha = 10, coluna = 5, pontosNecessarios = 10000;
 
-// Protótipo da função
 void exibirTabela(int tabela[linha][coluna]);
 void exibirProximoNumero(int n1, int n2);
 int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna]);
@@ -24,8 +24,7 @@ void resetConsoleColor();
 void escolherCor(int num);
 #endif
 
-int pontos, martelos, acumulados, pontosNecessarios = 10000;
-
+// Função principal do jogo onde o loop principal é executado
 int jogo()
 {
     pontos = 0, martelos, acumulados = 0;
@@ -177,6 +176,7 @@ int jogo()
     return pontos;
 }
 
+// Função para exibir a tabela do jogo
 void exibirTabela(int tabela[linha][coluna])
 {
     if (coluna == 5)
@@ -293,6 +293,7 @@ void exibirTabela(int tabela[linha][coluna])
     }
 }
 
+// Função para exibir o próximo número que irá aparecer
 void exibirProximoNumero(int n1, int n2)
 {
 
@@ -354,6 +355,7 @@ void exibirProximoNumero(int n1, int n2)
     printf("                                      ---------     --------\n\n");
 }
 
+// Função para tratar a entrada do usuário impedindo-o de colocar entradas inválidas
 int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna])
 {
     int entrada;
@@ -376,6 +378,7 @@ int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna])
     return entrada;
 }
 
+// Função para mesclar os blocos iguais
 void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int numeroAtual, int proximoNumero)
 {
     int multiplicacao = 0;
@@ -420,6 +423,7 @@ void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int
     gravidade(tabela, contadores, numeroAtual, proximoNumero);
 }
 
+// Função para fazer os blocos descerem
 void gravidade(int tabela[linha][coluna], int contadores[], int numeroAtual, int proximoNumero)
 {
 
@@ -443,6 +447,7 @@ void gravidade(int tabela[linha][coluna], int contadores[], int numeroAtual, int
     exibirTabela(tabela);
 }
 
+// Função para reiniciar os contadores das colunas
 void reiniciarContadores(int tabela[linha][coluna], int contadores[])
 {
     for (int i = 0; i < coluna; i++)
@@ -458,6 +463,8 @@ void reiniciarContadores(int tabela[linha][coluna], int contadores[])
     }
 }
 
+
+// INICIO DO TRECHO DE FUNÇÕES PARA CONFIGURAÇÃO DE CORES NO CONSOLE (WINDOWS)
 #ifdef _WIN32
 // Função para configurar a cor do texto e do fundo no console
 void setConsoleColor(int textColor, int bgColor)
@@ -533,7 +540,10 @@ void escolherCor(int num)
     }
 }
 #endif
+// FIM DO TRECHO DE FUNÇÕES PARA CONFIGURAÇÃO DE CORES NO CONSOLE (WINDOWS)
 
+
+// Função para limpar o terminal
 void limparTerminal()
 {
     // Verifica se está no sistema Windows
@@ -545,6 +555,7 @@ void limparTerminal()
 #endif
 }
 
+// Função para verificar se o grid está cheio
 int verificarGrid(int tabela[linha][coluna])
 {
     int gridCheio = 1;
@@ -562,6 +573,7 @@ int verificarGrid(int tabela[linha][coluna])
     return gridCheio;
 }
 
+// Função para exibir a mensagem de perdeu
 void exibirPerdeu()
 {
     limparTerminal();
@@ -573,6 +585,7 @@ void exibirPerdeu()
         " ██████  ██   ██ ██      ██ ███████      ██████    ████   ███████ ██   ██\n\n");
 }
 
+// Função para exibir a mensagem de ganhou
 void exibirGanhou()
 {
     limparTerminal();

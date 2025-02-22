@@ -8,6 +8,7 @@
 #include <windows.h>
 #endif
 
+//Definição de constantes e variáveis globais
 #define MAX_NOME 50
 #define MAX_JOGADORES 100
 #define ARQUIVO_RANKING "ranking.bin"
@@ -27,6 +28,7 @@ void configuracoes();
 void instrucoes();
 void escolherDificuldade();
 
+//função principal, nela roda o menu do jogo. A lógica do jogo em si está em jogo.c
 int main()
 {
     int entrada;
@@ -42,7 +44,7 @@ int main()
     printDropMerge();
     printf("\nNICKNAME: ");
     fgets(nome, MAX_NOME, stdin);
-    nome[strcspn(nome, "\n")] = 0; // Remover quebra de linha
+    nome[strcspn(nome, "\n")] = 0;
 
     while (1)
     {
@@ -282,6 +284,7 @@ void configuracoes()
     return;
 }
 
+//Função que exibe as instruções do jogo	
 void instrucoes()
 {
     printf("INSTRUÇÕES SOBRE O JOGO\n\n");
@@ -323,6 +326,7 @@ void instrucoes()
     return;
 }
 
+//Função que permite ao jogador escolher a dificuldade do jogo
 void escolherDificuldade()
 {
     limparTerminal();
