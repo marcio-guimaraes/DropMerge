@@ -2,10 +2,12 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <string.h>
-#include "jogo.c"
-
+#include "jogo.h" 
+ 
 #ifdef _WIN32
 #include <windows.h>
+#else
+#include <unistd.h> 
 #endif
 
 //Definição de constantes e variáveis globais

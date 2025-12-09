@@ -6,7 +6,8 @@
 #endif
 
 // Definição de constantes e variáveis globais e protótipos de funções
-int pontos, martelos, acumulados, linha = 10, coluna = 5, pontosNecessarios = 10000;
+int pontos, martelos, acumulados;
+int linha = 10, coluna = 5, pontosNecessarios = 10000;
 
 void exibirTabela(int tabela[linha][coluna]);
 void exibirProximoNumero(int n1, int n2);
@@ -14,10 +15,10 @@ int tratarEntrada(int numeroAtual, int proximoNumero, int tabela[linha][coluna])
 void mesclarBlocos(int tabela[linha][coluna], int contadores[], int entrada, int numeroAtual, int proximoNumero);
 void gravidade(int tabela[linha][coluna], int contadores[], int numeroAtual, int proximoNumero);
 void reiniciarContadores(int tabela[linha][coluna], int contadores[]);
-void limparTerminal();
 int verificarGrid(int tabela[linha][coluna]);
 void exibirPerdeu();
 void exibirGanhou();
+void limparTerminal();
 #ifdef _WIN32
 void setConsoleColor(int textColor, int bgColor);
 void resetConsoleColor();
